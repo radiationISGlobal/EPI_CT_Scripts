@@ -124,7 +124,7 @@ Analysis 3_1 --- Supplementary table 4: ERR/100 mGy by lymphoid and myeloid mali
 
 Analysis 3_2 --- Supplementary table 4: ERR/100 mGy by lymphoid and myeloid malignancy types by country – analyses stratified on sex, birth cohort and country - restricted to countries with at least 20 cases
 		b. Myeloid malignancies and AL types
-	results file:	epict_analysis_3_1_linERR_subseting_countries.xlsx
+	results file:	epict_analysis_3_2_linERR_subseting_countries.xlsx
 	model used:		linERR ( 1 + beta * cum_dose ) )
 	outcomes		"AML_prec_ALMP_ALAL","MPN_MDSMPN_MDS"
 	stratified:   	by sex, country and birthcohort
