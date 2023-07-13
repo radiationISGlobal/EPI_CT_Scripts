@@ -1,6 +1,6 @@
 ## Tables from "TABLES EPI-CT International haematological malignancies risk analysis_2022_08_24"
 
-## TABLE 1
+## Table 1: Characteristics of study subjects; n (%)
 
 library(dplyr)
 library(readxl) 
