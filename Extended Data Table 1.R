@@ -1,18 +1,11 @@
 ### SUPPLEMENTARY MATERIAL_EPI-CT
-### Appendix Table 2: 
-
-### Number of CTs and cumulative dose to the active bone marrow per subject, for all participants and by country
+### Extended Data Table 1: Number of CT examinations and cumulative dose to the active bone marrow per subject, for all participants and by country
 
 
-library(rERR)
+
+
 library(dplyr)
-library(lubridate)
 library(tidyr)
-library(dplyr)
-library(readxl) 
-library(writexl)
-library(tidyr)
-library(dplyr)
 
 
 dt1 <- readRDS("transformed_cohorts/dt1_new_outcomes.rds")
