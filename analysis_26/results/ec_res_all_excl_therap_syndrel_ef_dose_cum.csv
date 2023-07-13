@@ -1,0 +1,2 @@
+"data_set" "outcome" "subjects" "scans" "cases" "lag" "stratified" "beta_est" "se_beta" "lrt_ci_low" "lrt_ci_upp" "deviance" "lrt_stat" "lrt_pval"
+"event_fromat" "all_excl_therap_syndrel" "687842" "1064937" "490" "2" "sex country birthcohort" "0.0153873396264626" "0.00525695506358799" "0.00675897219728735" "0.0279649924780455" "8577.15859961129" "18.4195536098614" "1.77229955259373e-05"
