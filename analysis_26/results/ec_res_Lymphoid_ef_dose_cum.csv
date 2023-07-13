@@ -1,2 +1,0 @@
-"data_set" "outcome" "subjects" "scans" "cases" "lag" "stratified" "beta_est" "se_beta" "lrt_ci_low" "lrt_ci_upp" "deviance" "lrt_stat" "lrt_pval"
-"event_fromat" "Lymphoid" "687842" "1064937" "365" "2" "sex country birthcohort" "0.0158604037114935" "0.00623174092157499" "0.00596464671083824" "0.0314086172152928" "6379.52558843065" "14.5491544623546" "0.000136549918466788"

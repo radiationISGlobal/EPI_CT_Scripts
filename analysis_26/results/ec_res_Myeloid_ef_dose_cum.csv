@@ -1,2 +1,0 @@
-"data_set" "outcome" "subjects" "scans" "cases" "lag" "stratified" "beta_est" "se_beta" "lrt_ci_low" "lrt_ci_upp" "deviance" "lrt_stat" "lrt_pval"
-"event_fromat" "Myeloid" "687842" "1064937" "119" "2" "sex country birthcohort" "0.0184473348865495" "0.01164390944553" "0.00199797208384659" "0.0529064789341416" "2095.60413607267" "5.4054331635748" "0.0200741663062084"
