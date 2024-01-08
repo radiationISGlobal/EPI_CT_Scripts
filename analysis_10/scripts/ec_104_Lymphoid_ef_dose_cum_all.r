@@ -1,5 +1,4 @@
-# Author:        Francesc Badia
-# Date:         2018-01-17 15:06:37
+
 # ------------------------------
 # Description:  epict analysis: linERR to all cohort Lymphoid 5 YEARS LAG
 # ------------------------------
