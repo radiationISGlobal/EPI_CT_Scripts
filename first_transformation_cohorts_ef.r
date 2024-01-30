@@ -28,7 +28,7 @@ library(lubridate)
 
 setwd("P:/EPI CT Analysis/20191218/")
 
-dt_ef  <- readRDS("P:/EPI CT Analysis/epict_cohort/20191218/Leukemia_AnalysisFile_20191218.rds")
+dt_ef  <- readRDS("P:/EPI CT Analysis/epict_cohort/20191218/Leukemia_AnalysisFile.rds") # the file we got from "Leukemia_AnalysisFile.R"
 
 # lag period
 lags <- c(1, 2, 5)
