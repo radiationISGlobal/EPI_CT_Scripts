@@ -73,14 +73,14 @@ outputrds <- paste("Leukemia_AnalysisFile_", DateVersion, ".rds", sep="")
 
 # ......................................
 # Load data (patient, exams and outcome definition) from SQL-Server
-channel <- odbcConnect("EpiCT_INT", uid="jfiguerola", pwd="20phone08")
+channel <- odbcConnect("EpiCT_INT", uid="", pwd="") #your own id and password
 patient <- sqlQuery(channel, paste("select * from ", patienttbl))
 outdef <- sqlQuery(channel, paste("select * from ", outcomedeftbl)) # arxiu que modifiquem a Newvariables_OutComeDefinition_2020013.r
 exams <- sqlQuery(channel, paste("select * from ", examstbl, sep="")) 
 odbcClose(channel)
 # ......................................
 # New variable outcomes
-outdef1 <- read.csv2("P:/EPI CT Analysis/R Leucemia/OutcomeDefinition/outdef1.csv")
+outdef1 <- read.csv2("P:/EPI CT Analysis/R Leucemia/OutcomeDefinition/outdef1.csv") # outcomes (0/1) depending on morphology
 names(outdef1)
 
 
@@ -182,7 +182,7 @@ df <- df[df$doe < df$exit,]
 # ......................................
 # load doses
 #load(paste("C:/Users/jfiguerola.ISGLOBAL/Documents/servidor/Epi-CT/Dosimetria/IARC/", dosesfile, sep=""))
-channel <- odbcConnect("EpiCT_INT", uid="jfiguerola", pwd="20phone08")
+channel <- odbcConnect("EpiCT_INT", uid="", pwd="") # your own id and password
 dosesActMar <- sqlQuery(channel, paste("select sampid, patientids, incn, mean_activemarrow_3001_3200 as am, p50_activemarrow_3001_3200 as med
                                       from ", dosestbl, sep="")) 
 odbcClose(channel)
