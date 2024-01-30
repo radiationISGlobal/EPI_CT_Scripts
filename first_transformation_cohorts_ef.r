@@ -65,7 +65,7 @@ for (l in 1:length(lags)){
   #### data transformation ####
   formula <- Surv(entry_age,exit_age,Lymphoid)~lin(dose_cum)+strata(sex,country,birthcohort)
   dt2_ef <- f_to_event_table_ef_all(formula,data = dt_ef,dose_name = "ActMar_mean",time_name ="age",
-                                          id_name = "patientids",covars_names = c("sex","country","birthcohort"))
+                                          id_name = "patientids",covars_names = c("sex","country","birthcohort"))  # n_pe is created as a fictitional variable to calculate cum_doses and exclude ct's
   
   # # save one cohort with all the outcomes in the proper way
   # dt2_ef <- dt1_ef_lymph_no_leuk_noCLL
