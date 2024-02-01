@@ -14,7 +14,7 @@ To prepare the data. Execute once and always there is a change in the outcomes o
 
 - "first_transformation_cohorts_ef.r" creates the data bases ready for the analysis. Output with extra rows for cum_doses calculations and exclusions. For example: exams within less than two years before of diagnosis 	will appear but not taken into account in the cumulative doses. 
       		· INPUT:  - Leukemia_AnalysisFile_Date.rds
-      		· OUTPUT: - dt1_ef.rds           
+      		· OUTPUT: - dt1_ef.rds           (lag 2)
 			  - dt1_ef_lag1.rds
 			  - dt1_ef_lag5.rds      Outputs were saved in a folder called "transformed_cohorts"
 
