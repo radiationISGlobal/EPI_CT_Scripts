@@ -5,14 +5,14 @@ How to execute the scripts
 
 To prepare the data. Execute once and always there is a change in the outcomes or in the server data:
 
-- "Leukemia_AnalysisFile.R" gets the data from the server and applies the first exclusions and incorporates the 	outcomes as a dichotomy (0/1). Output file with one row per CT.
+- "Leukemia_AnalysisFile.R" gets the data from the server and applies the first exclusions and incorporates the outcomes as a dichotomy (0/1). Output file with one row per CT.
       · INPUT:  - IARC_PatientList20180323 
 		- IARC_ExaminationList20180323
 		- Doses_means_3001_3200_s1_20180503
 		- OutComeDef
       · OUTPUT: - Leukemia_AnalysisFile_Date.rds
 
-- "first_transformation_cohorts_ef.r" creates the data bases ready for the analysis. Output with extra rows for       	cum_doses calculations and exclusions. For example: exams within less than two years before of 	diagnosis 	will appear but not taken into account in the cumulative doses. 
+- "first_transformation_cohorts_ef.r" creates the data bases ready for the analysis. Output with extra rows for cum_doses calculations and exclusions. For example: exams within less than two years before of diagnosis 	will appear but not taken into account in the cumulative doses. 
       		· INPUT:  - Leukemia_AnalysisFile_Date.rds
       		· OUTPUT: - dt1_ef.rds           
 			  - dt1_ef_lag1.rds
@@ -24,13 +24,16 @@ For the analysis:
 
 - There must be a main folder for results called "results" together with the other folders. 
 
-- If there is the need to execute a new analysis, copy and paste one of the folders of "analysis_xx" and make the 	appropriate changes. 
+- If there is the need to execute a new analysis, copy and paste one of the folders of "analysis_xx" and make the appropriate changes. 
 
 - Create a new folder inside "analysis_xx" called "results". 
 
 - Each folder "analysis_xx" contains :
+    - "Scripts" folder:
 	· script for every outcome to execute. 
 		INPUT:  dt1_ef.rds (for example) 
-		OUTPUT: "output_filename" that will be saved in the "results" folder of the analysis (determined in 				"output_path")
+		OUTPUT: "output_filename" that will be saved in the "results" folder of the analysis (determined in "output_path")
 	· f_results_fit_x.r : called in the outcome's scripts. Fits the results in a readable table.  
-	· gather_results.r : once we have every outcome result in the "result" folder, execute to merge all 				outcomes results together. The resulting excel file will be saved in the main folder "results" 				located out of the "analysis_x" folder. 
+	· gather_results.r : once we have every outcome result in the "result" folder, execute to merge all outcomes results together. The resulting excel file will be saved in the main folder "results" 				located out of the "analysis_x" folder. 
+    - "Results" folder of the analysis:
+	Were the results of each model are saved. 
