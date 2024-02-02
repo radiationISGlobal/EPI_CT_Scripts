@@ -33,7 +33,9 @@
 ## 06/11/2018 - Some changes in outcome definitions
 ## 29/04/2019 - New outcomes defitinions, all outcomes are changed
 ## 04/06/2019 - Correction in morpho code 9735 (Plasmablastic lymphoma), now marked as Lymphoid and NHL
-## updates from here are relative to the outcomes definitions (OutComeDef). The input outcomes have been updating eventually. 
+## 13/01/2020 - Modification of "outdef" including two new outcomes -> "leuk with MDS and MPS" and "leukemia with MDS"
+##              with new outcome definition in -> outdef1
+## 29/11/2022 - New outcomes defined in "Numbers of cases and Definition of outcomes - haematological malignancies final classifiation 20221114d_updated29112022.xlsx"
 #############################################################################################################################################
 
 library(RODBC)
@@ -44,16 +46,16 @@ library(lubridate)
 rm(list=ls())
 
 # ......................................
-wd_default <- "C:/Users/jfiguerola.ISGLOBAL/Documents/servidor/Epi-CT/R/Leucemia/"    # working path
-wd_FileAnalysis <- "C:/Users/jfiguerola.ISGLOBAL/Documents/servidor/Epi-CT/R/Leucemia/Files"    # path for analysis files
+wd_default <- "Y:/EPI CT Analysis/R Leucemia/"    # working path
+wd_FileAnalysis <- "Y:/EPI CT Analysis/R Leucemia/Files"    # path for analysis files
 DateVersion <- format(Sys.Date(),"%Y%m%d")
 # ......................................
 
-setwd("E:/EPI CT Analysis/R Leucemia")
+setwd("Y:/EPI CT Analysis/R Leucemia")
 
 # ......................................
 # load functions
-source("E:/EPI CT Analysis/R Leucemia/Rfunctions_procs/SES_Categories.R")
+source("Y:/EPI CT Analysis/R Leucemia/Rfunctions_procs/SES_Categories.R")
 # ......................................
 
 # ......................................
@@ -72,12 +74,16 @@ outputrds <- paste("Leukemia_AnalysisFile_", DateVersion, ".rds", sep="")
 
 # ......................................
 # Load data (patient, exams and outcome definition) from SQL-Server
-channel <- odbcConnect("EpiCT_INT", uid="", pwd="") # your own id and password
+channel <- odbcConnect("EpiCT_INT", uid="", pwd="")
 patient <- sqlQuery(channel, paste("select * from ", patienttbl))
-outdef <- sqlQuery(channel, paste("select * from ", outcomedeftbl))
+#outdef <- sqlQuery(channel, paste("select * from ", outcomedeftbl)) # arxiu que modifiquem a Newvariables_OutComeDefinition_2020013.r
 exams <- sqlQuery(channel, paste("select * from ", examstbl, sep="")) 
 odbcClose(channel)
 # ......................................
+# New variable outcomes
+outdef1 <- read_xlsx("Y:/EPI CT Analysis/2022_new_grouping/Numbers of cases and Definition of outcomes - haematological malignancies final classifiation 20221114d_updated29112022.xlsx")
+names(outdef1)
+
 
 # ......................................
 # SES categories
@@ -104,11 +110,108 @@ exams$doe <- as.Date(exams$doe)
 # outdef <- outdef[outdef$group !="H/L malignancy linked to treatment or syndrome",] 
 # outdef <- outdef[outdef$group !="Other",] 
 #outdef2 <- select(outdef, -c(icdo3mb, designation_ICDO3, NewTerminology, all, therapy_down, mds_mps, mm))
-outdef <- outdef[outdef$Major_grouping!="HISTIOCYTIC/DENDRITIC",]
-outdef <- outdef[outdef$morphology!=9898,] # down syndrome related 
-outdef2 <- select(outdef, -c(IdTbl, OLD_preApril2019_classification, icdo3mb, designation_ICDO3, New_terminology, Major_grouping, Subtype,
-                             Stage, HISTIOCYTIC_DENDRITIC, mds_mpn))
-patient <- left_join(patient, outdef2, by=c('morphology'))
+#outdef1 <- outdef1[outdef1$Major_grouping!="HISTIOCYTIC/DENDRITIC",]
+#outdef1 <- outdef1[outdef1$morphology!=9898,] # down syndrome related 
+#outdef2 <- select(outdef1, -c(IdTbl, OLD_preApril2019_classification, icdo3mb, designation_ICDO3, New_terminology, Major_grouping, Subtype,
+#                             Stage, HISTIOCYTIC_DENDRITIC, mds_mpn))
+#patient <- left_join(patient, outdef2, by=c('morphology'))
+
+# all_excl_therap_syndrel
+all <- outdef1$...1[which(outdef1$`New classification` == 1)]
+all_excl_therap_syndrel <- ifelse(patient$morphology %in% all, 1,0)
+patient <- cbind(patient, all_excl_therap_syndrel)
+
+# Lymphoid
+lymp <- outdef1$...1[which(outdef1$...10 == 1)]
+Lymphoid <- ifelse(patient$morphology %in% lymp, 1,0)
+table(is.na(Lymphoid))
+patient <- cbind(patient, Lymphoid)
+
+# HL
+hl_m <- outdef1$...1[which(outdef1$...11 == 1)]
+HL <- ifelse(patient$morphology %in% hl_m, 1,0)
+table(is.na(HL))
+patient <- cbind(patient, HL)
+
+# NHL
+nhl_m <- outdef1$...1[which(outdef1$...12 == 1)]
+NHL <- ifelse(patient$morphology %in% nhl_m, 1,0)
+table(is.na(NHL))
+patient <- cbind(patient, NHL)
+
+# NHL mature Bcell_lymph
+nhl_bcell_m <- outdef1$...1[which(outdef1$...13 == 1)]
+NHL_Bcell <- ifelse(patient$morphology %in% nhl_bcell_m, 1,0)
+table(is.na(NHL_Bcell))
+patient <- cbind(patient, NHL_Bcell)
+
+# NHLmature  Tcell_and_NK_cell
+nhl_Tcell_m <- outdef1$...1[which(outdef1$...14 == 1)]
+NHL_Tcell <- ifelse(patient$morphology %in% nhl_Tcell_m, 1,0)
+table(is.na(NHL_Tcell))
+patient <- cbind(patient, NHL_Tcell)
+
+# NHL Precursor cell
+nhl_Precursorcell_m <- outdef1$...1[which(outdef1$...15 == 1)]
+NHL_Precursor_cell <- ifelse(patient$morphology %in% nhl_Precursorcell_m, 1,0)
+table(is.na(NHL_Precursor_cell))
+patient <- cbind(patient, NHL_Precursor_cell)
+
+# Myeloid (+ Mixed phenotype)
+Myeloid_m <- outdef1$...1[which(outdef1$...17 == 1)]
+Myeloid <- ifelse(patient$morphology %in% Myeloid_m, 1,0)
+table(is.na(Myeloid))
+patient <- cbind(patient, Myeloid)
+
+#Myeloid genetic
+Myeld_gen_m <- outdef1$...1[which(outdef1$...18 == 1)]
+Myeloid_genetic <- ifelse(patient$morphology %in% Myeld_gen_m, 1,0)
+table(is.na(Myeloid_genetic))
+patient <- cbind(patient, Myeloid_genetic)
+
+#AML and related precursor neoplasms + ALMP/ALAL
+AML_prec_ALMP_ALAL_m <- outdef1$...1[which(outdef1$...19 == 1)]
+AML_prec_ALMP_ALAL <- ifelse(patient$morphology %in% AML_prec_ALMP_ALAL_m, 1,0)
+table(is.na(AML_prec_ALMP_ALAL))
+patient <- cbind(patient, AML_prec_ALMP_ALAL)
+
+#AML+AL+ALMP/AL excluding genetic
+AML_AL_ALMP_AL_excl_gen_m <- outdef1$...1[which(outdef1$...20 == 1)]
+AML_AL_ALMP_AL_excl_gen <- ifelse(patient$morphology %in% AML_AL_ALMP_AL_excl_gen_m, 1,0)
+table(is.na(AML_AL_ALMP_AL_excl_gen))
+patient <- cbind(patient, AML_AL_ALMP_AL_excl_gen)
+
+#MPN + MDS/MPN + MDS
+MPN_MDSMPN_MDS_m <- outdef1$...1[which(outdef1$...21 == 1)]
+MPN_MDSMPN_MDS <- ifelse(patient$morphology %in% MPN_MDSMPN_MDS_m, 1,0)
+table(is.na(MPN_MDSMPN_MDS))
+patient <- cbind(patient, MPN_MDSMPN_MDS)
+
+#MPN 
+MPN_m <- outdef1$...1[which(outdef1$...22 == 1)]
+MPN <- ifelse(patient$morphology %in% MPN_m, 1,0)
+table(is.na(MPN))
+patient <- cbind(patient, MPN)
+
+# HISTIOCYTIC/DENDRITIC
+HISTIOCYTIC_DENDRITIC_m <- outdef1$...1[which(outdef1$...25 == 1)]
+HISTIOCYTIC_DENDRITIC <- ifelse(patient$morphology %in% HISTIOCYTIC_DENDRITIC_m, 1,0)
+table(is.na(HISTIOCYTIC_DENDRITIC))
+patient <- cbind(patient, HISTIOCYTIC_DENDRITIC)
+
+# UNSP
+UNSP_m <- outdef1$...1[which(outdef1$...30 == 1)]
+UNSP <- ifelse(patient$morphology %in% UNSP_m, 1,0)
+table(is.na(UNSP))
+patient <- cbind(patient, UNSP)
+
+# leuk_noCLL_AK
+leuk_noCll_AK_m <- outdef1$...1[which(outdef1$...8 == 1)]
+leuk_noCll_AK <- ifelse(patient$morphology %in% leuk_noCll_AK_m, 1,0)
+table(is.na(leuk_noCll_AK))
+patient <- cbind(patient, leuk_noCll_AK)
+
+
 # ......................................
 
 # ......................................
@@ -177,7 +280,7 @@ df <- df[df$doe < df$exit,]
 # ......................................
 # load doses
 #load(paste("C:/Users/jfiguerola.ISGLOBAL/Documents/servidor/Epi-CT/Dosimetria/IARC/", dosesfile, sep=""))
-channel <- odbcConnect("EpiCT_INT", uid="", pwd="") # your own id and password
+channel <- odbcConnect("EpiCT_INT", uid="", pwd="")
 dosesActMar <- sqlQuery(channel, paste("select sampid, patientids, incn, mean_activemarrow_3001_3200 as am, p50_activemarrow_3001_3200 as med
                                       from ", dosestbl, sep="")) 
 odbcClose(channel)
@@ -195,10 +298,11 @@ gc()
 
 # ......................................
 # selection of variables and correct order to use Frances R code
-# drop some unused columns and put in thei place new variables, Number of vars at the end will be 53 and in same order as older files
+# drop some unused columns and put in thei place new variables, Number of vars at the end will be 56 and in same order as older files
 df2 <- select(df2, -topography2, -tdesign2, -morphology2, -icdo3mb2, -mdesign2)
 #df2 <- df2[, c(1:23, 45:48, 50:50, 24:25, 49:49, 26:44, 51:52)]
-df2 <- df2[, c(1:23, 43:46, 48:48, 24:25, 47:47, 26:42, 49:50)]
+#df2 <- df2[, c(1:23, 43:46, 48:48, 24:25, 47:47, 26:42, 49:50)]
+df2 <- df2[, c(1:23, 42:45, 47:47, 24:25, 46:46, 26:41, 48:56)]
 names(df2)
 # ......................................
 
