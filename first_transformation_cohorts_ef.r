@@ -22,13 +22,13 @@
 rm(list=ls())
 
 library(rERR)
-source('P:/EPI CT Analysis/20191218/rERR_ModifiedFunctions/rERR_jf.r')
+source('Y:/EPI CT Analysis/20191218/rERR_ModifiedFunctions/rERR_jf.r')
 library(dplyr)
 library(lubridate)
 
-setwd("P:/EPI CT Analysis/20191218/")
+setwd("Y:/EPI CT Analysis/20191218/")
 
-dt_ef  <- readRDS("P:/EPI CT Analysis/epict_cohort/20191218/Leukemia_AnalysisFile.rds") # the file we got from "Leukemia_AnalysisFile.R"
+dt_ef  <- readRDS("Y:/EPI CT Analysis/epict_cohort/20191218/Leukemia_AnalysisFile_Date.rds") # the file we got from "Leukemia_AnalysisFile.R"
 
 # lag period
 lags <- c(1, 2, 5)
@@ -47,7 +47,7 @@ for (l in 1:length(lags)){
   #### clean outcome columns: NA to 0 ####
   
   # NA in outcome columns to 0
-  dt_ef[,c(32:41)] <- apply(dt_ef[,c(32:41)],2,function(z){replace(z, is.na(z), 0)})
+  dt_ef[,c(32:47)] <- apply(dt_ef[,c(32:47)],2,function(z){replace(z, is.na(z), 0)})
   dt_ef$y_dob <- lubridate::year(dt_ef$birth)
   
   #### birthcohort ####
@@ -101,10 +101,10 @@ for (l in 1:length(lags)){
   #### last outcome cleaning ####
   names(dt2_ef)
   #dt2_ef <- dt2_ef[,c(1:43,58,44:57,59,60:66)]
-  dt2_ef <- dt2_ef[,c(1:23,43:46,48,24:25,47,26:42,49:63)]
+  #dt2_ef <- dt2_ef[,c(1:23,43:46,48,24:25,47,26:42,49:63)]
   
   # set 0 to the outcome columns at the times of no-diagnostic
-  for(i in 38:47)
+  for(i in 32:47)
     dt2_ef[which(dt2_ef$n_pe!=0),i] <- 0
   
   #### save to a file ####
