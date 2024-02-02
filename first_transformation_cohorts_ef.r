@@ -11,7 +11,7 @@
 # --------------
 #
 #///  INPUT
-#   - Leukemia_AnalysisFile_20190604.rds: file from Jord with onw row per CT
+#   - Leukemia_AnalysisFile_DateVersion.rds: one row per CT
 #
 #///  OUTPUT
 #   - dt1_ef.rds
@@ -28,7 +28,7 @@ library(lubridate)
 
 setwd("Y:/EPI CT Analysis/20191218/")
 
-dt_ef  <- readRDS("Y:/EPI CT Analysis/epict_cohort/20191218/Leukemia_AnalysisFile_Date.rds") # the file we got from "Leukemia_AnalysisFile.R"
+dt_ef  <- readRDS("Y:/EPI CT Analysis/epict_cohort/20191218/Leukemia_AnalysisFile_DateVersion.rds") # the file we got from "Leukemia_AnalysisFile.R"
 
 # lag period
 lags <- c(1, 2, 5)
