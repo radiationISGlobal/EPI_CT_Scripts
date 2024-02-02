@@ -41,4 +41,7 @@ For the analysis:
 	· f_results_fit_x.r : called in the outcome's scripts. Fits the results in a readable table.  
 	· gather_results.r : once we have every outcome result in the "result" folder, execute to merge all outcomes results together. The resulting excel file will be saved in the main folder "results" 				located out of the "analysis_x" folder. 
     - "Results" folder of the analysis:
-	Were the results of each model are saved. 
+	Where the results of each model are saved. 
+
+
+
