@@ -3,6 +3,11 @@ How to execute the scripts
 
 - Run "call_function.r" always before starting with the analysis. 
 
+Version of R used to execute the function:
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
 To prepare the data. Execute once and always there is a change in the outcomes or in the server data:
 
 - "Leukemia_AnalysisFile.R" gets the data from the server and applies the first exclusions and incorporates the outcomes as a dichotomy (0/1). Output file with one row per CT.
